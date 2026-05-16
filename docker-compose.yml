@@ -1,6 +1,8 @@
 services:
   miniflux:
     image: miniflux/miniflux:latest
+    ports:
+      - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
@@ -16,9 +18,6 @@ services:
       tsdproxy.enable: "true"
       tsdproxy.name: "miniflux"
       tsdproxy.port.1: "443/https:8080/http"
-    networks:
-      - default
-      - dokploy-network
     restart: unless-stopped
 
   db:
@@ -37,7 +36,3 @@ services:
 
 volumes:
   miniflux-db:
-
-networks:
-  dokploy-network:
-    external: true
